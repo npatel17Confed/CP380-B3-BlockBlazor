@@ -31,6 +31,7 @@ namespace CP380_B3_BlockBlazor
             services.AddServerSideBlazor();
             services.AddSingleton<BlockService>();
             services.AddSingleton<PendingTransactionService>();
+            services.AddSingleton<MiningService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

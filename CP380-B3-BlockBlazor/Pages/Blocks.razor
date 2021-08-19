@@ -3,6 +3,7 @@
 @using CP380_B1_BlockList.Models
 @using CP380_B3_BlockBlazor.Data
 @inject BlockService blockService  
+@inject MiningService miningService
 
 <h3>Blocks</h3>
 
@@ -26,12 +27,28 @@ else
 </div>
 }
 
+<EditForm Model="@block" OnValidSubmit="@MineNewBlock">
+    <button class="btn btn-outline-primary" type="submit">Mine Blocks</button>
+</EditForm>
+
+<br />
+<br />
+
+
 @code {
     IEnumerable<Block> blocklist;
+    Block block = new Block(DateTime.Now, "", new() { });
 
     protected override async Task OnInitializedAsync()
     {
         // TODO: fetch blocks from the BlockService
         blocklist = await blockService.GetBlocksAsync();
+    }
+
+    protected async Task MineNewBlock()
+    {
+        block = await miningService.MineBlock();
+        var res = await blockService.SubmitNewBlockAsync(block);
+        blocklist.ToList().Add(res);
     }
 }
